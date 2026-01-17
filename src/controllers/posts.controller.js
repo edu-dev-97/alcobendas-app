@@ -6,7 +6,7 @@ const getPublicPosts = async (req, res) => {
     .from('posts')
     .select('*')
     .eq('publicado', true)
-    .order('created_at', { ascending: false })
+    .order('fecha_publicacion', { ascending: false })
 
   if (error) return res.status(400).json(error)
   res.json(data)

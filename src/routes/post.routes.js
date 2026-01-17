@@ -5,9 +5,9 @@ const {getPublicPosts, createPost, updatePost, deletePost} = require('../control
 const verifyAdmin = require('../middlewares/auth.middleware.js');
 
 
-router.get('/', getPublicPosts)
-router.post('/', verifyAdmin, createPost)
-router.put('/:id', verifyAdmin, updatePost)
-router.delete('/:id', verifyAdmin, deletePost)
+router.get('/log/administrador/obtenerPost', getPublicPosts)
+router.post('/log/administrador/crearPost', verifyAdmin, createPost)
+router.put('/log/administrador/actualizarPost/:id', verifyAdmin, updatePost)
+router.delete('/log/administrador/eliminarPost/:id', verifyAdmin, deletePost)
 
 module.exports = router;
