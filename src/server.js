@@ -17,8 +17,6 @@ app.use(bodyParser.json());
 app.use(express.json({ limit: '50mb' })); // Middleware para parsear JSON en el body de las peticiones
 
 //Rutas de los endpoints
-/*app.use('/api/auth', authRoutes);
-app.use('/api/posts', postsRoutes);*/
 app.use(
     authRoutes,
     postsRoutes
