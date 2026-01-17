@@ -4,3 +4,5 @@ const app = require('./app.js')
 app.get('/', (req, res) => {
     res.send('API alcobendas funcionando correctamente');
 })
+
+module.exports = app;
