@@ -1,8 +1,9 @@
-import { Router } from 'express'
-import { loginAdmin } from '../controllers/auth.controller.js'
+const express = require('express');
+//variable router para utilizar la solicitud http (GET/POST/PUT/DELETE) en express
+const router = express.Router();
+const loginAdmin = require('../controllers/auth.controller.js');
 
-const router = Router()
 
 router.post('/login', loginAdmin)
 
-export default router
+module.exports = router;

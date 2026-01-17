@@ -1,15 +1,28 @@
-import express from 'express'
-import cors from 'cors'
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+//rutas
+const authRoutes = require('./routes/auth.routes.js');
+const postsRoutes = require('./routes/posts.routes.js');
+//
+require('dotenv').config();
 
-import authRoutes from './routes/auth.routes.js'
-import postsRoutes from './routes/posts.routes.js'
+const app = express();
 
-const app = express()
+app.use(cors());
 
-app.use(cors())
-app.use(express.json())
+//Middleware general
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(express.json({ limit: '50mb' })); // Middleware para parsear JSON en el body de las peticiones
 
-app.use('/api/auth', authRoutes)
-app.use('/api/posts', postsRoutes)
+//Rutas de los endpoints
+/*app.use('/api/auth', authRoutes);
+app.use('/api/posts', postsRoutes);*/
+app.use(
+    authRoutes,
+    postsRoutes
+);
 
-export default app
+//exportar app
+module.exports = app

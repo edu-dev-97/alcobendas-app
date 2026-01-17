@@ -1,6 +1,6 @@
-import { supabase } from '../config/supabase.js'
+const supabase = require('../config/supabase.js');
 
-export const verifyAdmin = async (req, res, next) => {
+const verifyAdmin = async (req, res, next) => {
   const token = req.headers.authorization?.replace('Bearer ', '')
 
   if (!token) {
@@ -15,3 +15,5 @@ export const verifyAdmin = async (req, res, next) => {
 
   next()
 }
+
+module.exports = verifyAdmin
