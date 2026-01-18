@@ -54,9 +54,9 @@ const createPost = async (req, res) => {
 
     const urlPublica = `${process.env.SUPABASE_URL}/storage/v1/object/public/imagen-post/${imagenNombrePost}`;
 
-    const { titulo, contenido, deporte, imagen_url, nombre_imagen, fecha_publicacion, mes_publicacion, ano_publicacion } = req.body;
+    const { titulo, contenido, deporte, fecha_publicacion, mes_publicacion, ano_publicacion } = req.body;
 
-    if (!titulo || !contenido || !deporte || !imagen_url || !nombre_imagen || !fecha_publicacion || !mes_publicacion || !ano_publicacion) {
+    if (!titulo || !contenido || !deporte || !fecha_publicacion || !mes_publicacion || !ano_publicacion) {
       return res.status(400).json({ error: 'Datos inválidos' });
     }
 
