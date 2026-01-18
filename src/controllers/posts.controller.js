@@ -15,12 +15,12 @@ const getPublicPosts = async (req, res) => {
 
 const createPost = async (req, res) => {
   try {
-    const file = req.file // viene de multer
-    if (!file) {
+    if (!req.file) {
         console.log('No se ha proporcionado ninguna imagen');
         return res.status(400).json({ message: 'No se ha proporcionado ninguna imagen.' });
     }
 
+    const file = req.file // viene de multer
     const imagenNombrePost = file.originalname;
 
     const { data: existente, error: existingError } = await supabase
@@ -88,8 +88,7 @@ const updatePost = async (req, res) => {
   try {
     const { id } = req.params;
     const { titulo, contenido, deporte, imagen_url, nombre_imagen, fecha_publicacion, mes_publicacion, ano_publicacion } = req.body;
-    const file = req.file;
-
+    
     if (!titulo || !contenido || !deporte || !imagen_url || !nombre_imagen || !fecha_publicacion || !mes_publicacion || !ano_publicacion) {
       return res.status(400).json({ error: 'Datos inválidos' });
     }
@@ -107,7 +106,8 @@ const updatePost = async (req, res) => {
     let nuevaUrl = oldImageUrl;
     let nuevoNombreImagen = oldImageName;
 
-    if (file) {
+    if (req.file) {
+      const file = req.file;
       const imagenNombrePost = file.originalname;
 
       const { data: existente } = await supabase
