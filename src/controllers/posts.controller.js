@@ -172,33 +172,47 @@ const updatePost = async (req, res) => {
 
 const deletePost = async (req, res) => {
   try {
-    const id = req.params;
+    const { id } = req.params;
 
-    const { data: post, error: errPost} = await supabase
+    // Obtener post
+    const { data: post, error: errPost } = await supabase
       .from('posts')
       .select('nombre_imagen')
       .eq('id', id)
       .single();
-    
-    if ( post?.nombre_imagen ) {
+
+    if (errPost || !post) {
+      return res.status(404).json({ message: 'Post no encontrado' });
+    }
+
+    // Eliminar imagen del storage
+    if (post.nombre_imagen) {
       const { error } = await supabase.storage
         .from('imagen-post')
         .remove([post.nombre_imagen]);
-      
+
       if (error) {
-        console.error('Error eliminando imagen rifa:', error);
+        console.error('Error eliminando imagen:', error);
       }
     }
 
-    //eliminar
-    await supabase.from('posts').delete().eq('id', id);
-    res.json({ message: 'Post eliminado correctamente' });
+    // Eliminar post
+    const { error: errDelete } = await supabase
+      .from('posts')
+      .delete()
+      .eq('id', id);
+
+    if (errDelete) {
+      return res.status(400).json(errDelete);
+    }
+
+    return res.json({ message: 'Post eliminado correctamente' });
 
   } catch (err) {
-    console.error(err)
-    res.status(500).json({ message: 'Error al eliminar el post' })
+    console.error(err);
+    res.status(500).json({ message: 'Error al eliminar el post' });
   }
-}
+};
 
 module.exports = {
     getPublicPosts,
