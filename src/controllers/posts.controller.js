@@ -186,7 +186,7 @@ const deletePost = async (req, res) => {
     }
 
     // Eliminar imagen del storage
-    if (post.nombre_imagen) {
+    if (post?.nombre_imagen) {
       const { error } = await supabase.storage
         .from('imagen-post')
         .remove([post.nombre_imagen]);
