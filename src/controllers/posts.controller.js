@@ -191,7 +191,7 @@ const deletePost = async (req, res) => {
     }
 
     //eliminar
-    await supabase.from('posts').delete.eq('id', id);
+    await supabase.from('posts').delete().eq('id', id);
     res.json({ message: 'Post eliminado correctamente' });
 
   } catch (err) {
