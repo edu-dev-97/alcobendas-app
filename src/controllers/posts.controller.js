@@ -144,7 +144,7 @@ const updatePost = async (req, res) => {
       }
     }
 
-    const { data: actualizada ,error: errUpdate } = await supabase
+    const { error: errUpdate } = await supabase
       .from('posts')
       .update({
         titulo, 
@@ -161,8 +161,7 @@ const updatePost = async (req, res) => {
     if (errUpdate) return res.status(400).json(errUpdate);
 
     return res.json({
-      message: 'Post actualizado correctamente',
-      actualizada
+      message: 'Post actualizado correctamente'
     });
 
   } catch (err) {
