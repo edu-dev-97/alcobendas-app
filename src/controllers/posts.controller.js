@@ -87,9 +87,9 @@ const createPost = async (req, res) => {
 const updatePost = async (req, res) => {
   try {
     const { id } = req.params;
-    const { titulo, contenido, deporte, imagen_url, nombre_imagen, fecha_publicacion, mes_publicacion, ano_publicacion } = req.body;
+    const { titulo, contenido, deporte, fecha_publicacion, mes_publicacion, ano_publicacion } = req.body;
     
-    if (!titulo || !contenido || !deporte || !imagen_url || !nombre_imagen || !fecha_publicacion || !mes_publicacion || !ano_publicacion) {
+    if (!titulo || !contenido || !deporte || !fecha_publicacion || !mes_publicacion || !ano_publicacion) {
       return res.status(400).json({ error: 'Datos inválidos' });
     }
 
