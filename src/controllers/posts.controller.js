@@ -55,9 +55,9 @@ const createPost = async (req, res) => {
 
     const urlPublica = `${process.env.SUPABASE_URL}/storage/v1/object/public/imagen-post/${imagenNombrePost}`;
 
-    const { titulo, contenido, deporte, fecha_publicacion, mes_publicacion, ano_publicacion } = req.body;
+    const { titulo, contenido, deporte, fecha_publicacion, mes_publicacion, ano_publicacion, instagram_url } = req.body;
 
-    if (!titulo || !contenido || !deporte || !fecha_publicacion || !mes_publicacion || !ano_publicacion) {
+    if (!titulo || !contenido || !deporte || !fecha_publicacion || !mes_publicacion || !ano_publicacion || !instagram_url) {
       return res.status(400).json({ error: 'Datos inválidos' });
     }
 
@@ -71,7 +71,8 @@ const createPost = async (req, res) => {
         nombre_imagen: imagenNombrePost,
         fecha_publicacion,
         mes_publicacion,
-        ano_publicacion
+        ano_publicacion,
+        instagram_url
       }])
       .select()
       .single();
@@ -88,10 +89,10 @@ const createPost = async (req, res) => {
 const updatePost = async (req, res) => {
   try {
     const { id } = req.params;
-    const { titulo, contenido, deporte, fecha_publicacion, mes_publicacion, ano_publicacion } = req.body;
+    const { titulo, contenido, deporte, fecha_publicacion, mes_publicacion, ano_publicacion, instagram_url } = req.body;
     const file = req.file;
     
-    if (!titulo || !contenido || !deporte || !fecha_publicacion || !mes_publicacion || !ano_publicacion) {
+    if (!titulo || !contenido || !deporte || !fecha_publicacion || !mes_publicacion || !ano_publicacion || !instagram_url) {
       return res.status(400).json({ error: 'Datos inválidos' });
     }
 
@@ -155,7 +156,8 @@ const updatePost = async (req, res) => {
         nombre_imagen: nuevoNombreImagen, 
         fecha_publicacion, 
         mes_publicacion, 
-        ano_publicacion
+        ano_publicacion,
+        instagram_url
       })
       .eq('id', id);
 
