@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 //rutas
 const authRoutes = require('./routes/auth.routes.js');
 const postsRoutes = require('./routes/post.routes.js');
+const usersRoutes = require('./routes/users.routes.js');
 //
 require('dotenv').config();
 
@@ -19,7 +20,8 @@ app.use(express.json({ limit: '50mb' })); // Middleware para parsear JSON en el 
 //Rutas de los endpoints
 app.use(
     authRoutes,
-    postsRoutes
+    postsRoutes,
+    usersRoutes
 );
 
 //Crear la raíz de la API (una vez subido a vercel)
