@@ -19,7 +19,7 @@ const getUserById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const { data, error } = await supabaseAdmin.auth.admin.getUserById(id);
+    const { data, error } = await supabase.auth.admin.getUserById(id);
 
     if (error) {
       return res.status(400).json(error);
