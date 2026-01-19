@@ -15,4 +15,21 @@ const getUsers = async (req, res) => {
   }
 };
 
-module.exports = getUsers;
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const { data, error } = await supabaseAdmin.auth.admin.getUserById(id);
+
+    if (error) {
+      return res.status(400).json(error);
+    }
+
+    res.json(data.user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error al obtener el usuario' });
+  }
+};
+
+module.exports = { getUsers, getUserById };
