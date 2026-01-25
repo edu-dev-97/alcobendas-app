@@ -25,7 +25,7 @@ const getMe = async (req, res) => {
   const { data, error } = await supabase.auth.getUser(token);
 
   if (error || !data.user) {
-    return res.status(401).json({ message: 'Token expirado o inválido' })
+    return res.status(401).json({ message: 'Token expirado' })
   }
 
   res.json(data.user);
