@@ -58,7 +58,7 @@ const getPublicacionesAnioMes = async (req, res) => {
 
   if (error) return res.status(400).json(error)
 
-  return data;
+  res.json(data);
 }
 
 
