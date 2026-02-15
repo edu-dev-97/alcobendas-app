@@ -31,7 +31,7 @@ const getAnios = async (req, res) => {
 
 //Obtener meses por año
 const getMesesPorAnio = async (req, res) => {
-  const { anio } = req.body;
+  const { anio } = req.params;
 
   const { data, error } = await supabase
     .from('posts')
@@ -48,7 +48,7 @@ const getMesesPorAnio = async (req, res) => {
 
 //Obtener posts filtrados por mes y año
 const getPublicacionesAnioMes = async (req, res) => {
-  const { anio, mes } = req.body;
+  const { anio, mes } = req.params;
 
   const { data, error } = await supabase
     .from('posts')
