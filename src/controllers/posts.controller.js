@@ -2,6 +2,7 @@
 const supabase = require('../config/supabase.js');
 const sharp = require('sharp'); //Necesario para convertir el buffer
 
+//Obtener los posts admin/public
 const getPublicPosts = async (req, res) => {
   const { data, error } = await supabase
     .from('posts')
@@ -12,6 +13,54 @@ const getPublicPosts = async (req, res) => {
   if (error) return res.status(400).json(error)
   res.json(data)
 }
+
+//Obtener años unicos sin repetir
+const getAnios = async (req, res) => {
+  const { data, error } = await supabase
+    .from('posts')
+    .select('ano_publicacion')
+    .order('ano_publicacion', { ascending: false });
+
+  if (error) return res.status(400).json(error);
+
+  // Extraer valores únicos
+  const aniosUnicos = [...new Set(data.map(p => p.ano_publicacion))];
+
+  return aniosUnicos;
+}
+
+//Obtener meses por año
+const getMesesPorAnio = async (req, res) => {
+  const { anio } = req.body;
+
+  const { data, error } = await supabase
+    .from('posts')
+    .select('mes_publicacion')
+    .eq('ano_publicacion', anio)
+    .order('mes_publicacion', { ascending: false });
+
+  if (error) return res.status(400).json(error)
+
+  const mesesUnicos = [...new Set(data.map(p => p.mes_publicacion))];
+
+  return mesesUnicos;
+}
+
+//Obtener posts filtrados por mes y año
+const getPublicacionesAnioMes = async (req, res) => {
+  const { anio, mes } = req.body;
+
+  const { data, error } = await supabase
+    .from('posts')
+    .eq('ano_publicacion', anio)
+      .eq('mes_publicacion', mes)
+      .order('fecha_publicacion', { ascending: false });
+
+  if (error) return res.status(400).json(error)
+
+  return data;
+}
+
 
 const createPost = async (req, res) => {
   try {
