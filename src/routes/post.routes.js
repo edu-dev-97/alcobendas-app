@@ -1,12 +1,15 @@
 const express = require('express');
 //variable router para utilizar la solicitud http (GET/POST/PUT/DELETE) en express
 const router = express.Router();
-const {getPublicPosts, createPost, updatePost, deletePost} = require('../controllers/posts.controller.js');
+const {getPublicPosts, createPost, updatePost, deletePost, getAnios, getMesesPorAnio, getPublicacionesAnioMes} = require('../controllers/posts.controller.js');
 const verifyAdmin = require('../middlewares/auth.middleware.js');
 const upload = require('../middlewares/upload.middleware')
 
 
 router.get('/log/administrador/obtenerPost', getPublicPosts)
+router.get('/log/administrador/obtenerAnioPost', getAnios)
+router.get('/log/administrador/obtenerMesesPost/:anio', getMesesPorAnio)
+router.get('/log/administrador/obtenerAniosMesesPost/:anio/:mes', getPublicacionesAnioMes)
 router.post('/log/administrador/crearPost', verifyAdmin, upload.single('imagenPost'), createPost)
 router.put('/log/administrador/actualizarPost/:id', verifyAdmin, upload.single('imagenPost'), updatePost)
 router.delete('/log/administrador/eliminarPost/:id', verifyAdmin, deletePost)

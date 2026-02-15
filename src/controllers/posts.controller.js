@@ -268,6 +268,9 @@ const deletePost = async (req, res) => {
 
 module.exports = {
     getPublicPosts,
+    getAnios,
+    getMesesPorAnio,
+    getPublicacionesAnioMes,
     createPost,
     updatePost,
     deletePost
