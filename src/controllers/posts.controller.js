@@ -53,8 +53,8 @@ const getPublicacionesAnioMes = async (req, res) => {
   const { data, error } = await supabase
     .from('posts')
     .eq('ano_publicacion', anio)
-      .eq('mes_publicacion', mes)
-      .order('fecha_publicacion', { ascending: false });
+    .eq('mes_publicacion', mes)
+    .order('fecha_publicacion', { ascending: false });
 
   if (error) return res.status(400).json(error)
 
