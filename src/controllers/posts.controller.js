@@ -16,34 +16,52 @@ const getPublicPosts = async (req, res) => {
 
 //Obtener años unicos sin repetir
 const getAnios = async (req, res) => {
-  const { data, error } = await supabase
-    .from('posts')
-    .select('ano_publicacion')
-    .order('ano_publicacion', { ascending: false });
+  try {
+    const { data, error } = await supabase
+      .from('posts')
+      .select('ano_publicacion', { distinct: true })
+      .order('ano_publicacion', { ascending: false });
 
-  if (error) return res.status(400).json(error);
+    if (error) {
+      return res.status(400).json(error);
+    }
 
-  // Extraer valores únicos
-  const aniosUnicos = [...new Set(data.map(p => p.ano_publicacion))];
+    // RESPUESTA CORRECTA
+    return res.json(data.map(a => a.ano_publicacion));
 
-  return aniosUnicos;
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({message: 'Error interno del servidor'});
+  }
 }
 
 //Obtener meses por año
 const getMesesPorAnio = async (req, res) => {
-  const { anio } = req.params;
+  try {
 
-  const { data, error } = await supabase
-    .from('posts')
-    .select('mes_publicacion')
-    .eq('ano_publicacion', anio)
-    .order('mes_publicacion', { ascending: false });
+    const { anio } = req.params;
 
-  if (error) return res.status(400).json(error)
+    const { data, error } = await supabase
+      .from('posts')
+      .select('mes_publicacion', { distinct: true })
+      .eq('ano_publicacion', anio)
+      .order('mes_publicacion', { ascending: false });
 
-  const mesesUnicos = [...new Set(data.map(p => p.mes_publicacion))];
+    if (error) {
+      return res.status(400).json(error);
+    }
 
-  return mesesUnicos;
+    // RESPUESTA
+    return res.json(data.map(p => p.mes_publicacion));
+
+  } catch (err) {
+
+    console.error(err);
+
+    return res.status(500).json({
+      message: 'Error interno del servidor'
+    });
+  }
 }
 
 //Obtener posts filtrados por mes y año
@@ -52,6 +70,7 @@ const getPublicacionesAnioMes = async (req, res) => {
 
   const { data, error } = await supabase
     .from('posts')
+    .select('*')
     .eq('ano_publicacion', anio)
     .eq('mes_publicacion', mes)
     .order('fecha_publicacion', { ascending: false });
