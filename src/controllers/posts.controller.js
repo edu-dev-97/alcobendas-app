@@ -19,7 +19,8 @@ const getAnios = async (req, res) => {
   try {
     const { data, error } = await supabase
       .from('posts')
-      .select('ano_publicacion', { distinct: true })
+      .select('ano_publicacion')
+      .group('ano_publicacion')
       .order('ano_publicacion', { ascending: false });
 
     if (error) {
@@ -43,7 +44,8 @@ const getMesesPorAnio = async (req, res) => {
 
     const { data, error } = await supabase
       .from('posts')
-      .select('mes_publicacion', { distinct: true })
+      .select('mes_publicacion')
+      .group('mes_publicacion')
       .eq('ano_publicacion', anio)
       .order('mes_publicacion', { ascending: false });
 
