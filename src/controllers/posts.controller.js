@@ -19,13 +19,15 @@ const getAnios = async (req, res) => {
   try {
     const { data, error } = await supabase
       .from('posts')
-      .select('ano_publicacion', { distinct: true })
+      .select('ano_publicacion')
       .order('ano_publicacion', { ascending: false });
 
     if (error) return res.status(400).json(error);
 
-    // RESPUESTA CORRECTA
-    return res.json(data.map(a => a.ano_publicacion));
+    // Quitar duplicados en JS
+    const aniosUnicos = [...new Set(data.map(p => p.ano_publicacion))];
+
+    return res.json(aniosUnicos);
 
   } catch (err) {
     console.error(err);
@@ -40,14 +42,16 @@ const getMesesPorAnio = async (req, res) => {
 
     const { data, error } = await supabase
       .from('posts')
-      .select('mes_publicacion', { distinct: true })
+      .select('mes_publicacion')
       .eq('ano_publicacion', anio)
       .order('mes_publicacion', { ascending: false });
 
     if (error) return res.status(400).json(error);
 
-    // RESPUESTA
-    return res.json(data.map(m => m.mes_publicacion));
+    // Quitar duplicados
+    const mesesUnicos = [...new Set(data.map(p => p.mes_publicacion))];
+
+    return res.json(mesesUnicos);
 
   } catch (err) {
     console.error(err);
