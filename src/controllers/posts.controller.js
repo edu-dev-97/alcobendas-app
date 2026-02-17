@@ -19,13 +19,10 @@ const getAnios = async (req, res) => {
   try {
     const { data, error } = await supabase
       .from('posts')
-      .select('ano_publicacion')
-      .group('ano_publicacion')
+      .select('ano_publicacion', { distinct: true })
       .order('ano_publicacion', { ascending: false });
 
-    if (error) {
-      return res.status(400).json(error);
-    }
+    if (error) return res.status(400).json(error);
 
     // RESPUESTA CORRECTA
     return res.json(data.map(a => a.ano_publicacion));
@@ -39,30 +36,23 @@ const getAnios = async (req, res) => {
 //Obtener meses por año
 const getMesesPorAnio = async (req, res) => {
   try {
-
     const { anio } = req.params;
 
     const { data, error } = await supabase
       .from('posts')
-      .select('mes_publicacion')
-      .group('mes_publicacion')
+      .select('mes_publicacion', { distinct: true })
       .eq('ano_publicacion', anio)
       .order('mes_publicacion', { ascending: false });
 
-    if (error) {
-      return res.status(400).json(error);
-    }
+    if (error) return res.status(400).json(error);
 
     // RESPUESTA
-    return res.json(data.map(p => p.mes_publicacion));
+    return res.json(data.map(m => m.mes_publicacion));
 
   } catch (err) {
-
     console.error(err);
 
-    return res.status(500).json({
-      message: 'Error interno del servidor'
-    });
+    return res.status(500).json({message: 'Error interno del servidor'});
   }
 }
 
